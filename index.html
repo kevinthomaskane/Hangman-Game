@@ -17,8 +17,10 @@
 
     </h1>
 <p id="test">
-    Hangman
+    
 </p>
+
+<h1 id="guesses1">Number of Guesses: <span id="guesses"></span></h1>
     
     
     <h2 id="spaces"></h2>
@@ -34,9 +36,20 @@
             var compChoice = [];
             var spaces = [];
             var letters = [];
-
+            
+            
+            
+            
             compChoose();
             writeSpaces(compChoice);
+
+            var guesses = spaces.length;
+            document.getElementById("guesses").innerHTML = guesses;
+            
+            
+            
+            console.log(guesses)
+
             
 
             function compChoose() {
@@ -64,6 +77,7 @@
 
        
              document.onkeypress = function (event){
+                
                 var letterChoice = event.key;         
                 var spacesString = document.getElementById("spaces").innerHTML;              
                 var spacesArray = spacesString.split(" ")
@@ -72,7 +86,7 @@
                 var match = false;
                 for (let i = 0; i < arrayOfLetters.length; i++) { 
 
-                    if (arrayOfLetters[i] === letterChoice) {
+                    if (arrayOfLetters[i] === letterChoice  && guesses > 1) {
 
                         spacesArray[i]= arrayOfLetters[i];
                         var newString = spacesArray.join(" ")
@@ -82,12 +96,22 @@
                         
                   }
 
-                    if (!match){
+                    if (!match && guesses > 1){
                         document.getElementById("incorrectLetters").innerHTML += letterChoice;
+                        
+                            guesses--;
+                            document.getElementById("guesses").innerHTML = guesses;
                     }
+                        else {
+                            document.getElementById("guesses1").innerHTML = "you lose";
+                        }
+                        
+                        
+                    
                 }
 
 
+                
 
         </script>
 
