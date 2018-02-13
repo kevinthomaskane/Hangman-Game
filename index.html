@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Index</title>
+</head>
+<style>
+    * {
+        text-align: center;
+    }
+</style>
+<body>
+    <h1>
+
+    </h1>
+<p id="test">
+    Hangman
+</p>
+    
+    
+    <h2 id="spaces"></h2>
+    
+    <h3 id="incorrectLetters" style="color: red">
+        </h3>
+
+
+        <script>
+
+
+            var words = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+            var compChoice = [];
+            var spaces = [];
+            var letters = [];
+
+            compChoose();
+            writeSpaces(compChoice);
+            
+
+            function compChoose() {
+                var choice = words[Math.floor(Math.random() * words.length)];
+                console.log(choice);
+                var letterArray = choice.split("");
+                console.log(letterArray)
+                letters.push(choice)
+                compChoice.push(letterArray);
+                console.log(letters)
+                return letterArray;
+
+
+            }
+            
+
+            function writeSpaces(compChoice) {
+                for (let i = 0; i < compChoice[0].length; i++) {
+                    compChoice[0][i] = "_";
+                    spaces.push(compChoice[0][i]);
+                }
+                newString = spaces.join(" ");
+                document.getElementById("spaces").innerHTML = newString;
+            }
+
+       
+             document.onkeypress = function (event){
+                var letterChoice = event.key;         
+                var spacesString = document.getElementById("spaces").innerHTML;              
+                var spacesArray = spacesString.split(" ")
+                var arrayOfLetters = letters[0].split("")
+                console.log(arrayOfLetters);
+                var match = false;
+                for (let i = 0; i < arrayOfLetters.length; i++) { 
+
+                    if (arrayOfLetters[i] === letterChoice) {
+
+                        spacesArray[i]= arrayOfLetters[i];
+                        var newString = spacesArray.join(" ")
+                        document.getElementById("spaces").innerHTML = newString;
+                        match = true;
+                    }
+                        
+                  }
+
+                    if (!match){
+                        document.getElementById("incorrectLetters").innerHTML += letterChoice;
+                    }
+                }
+
+
+
+        </script>
+
+</body>
+
+</html>
