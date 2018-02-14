@@ -39,7 +39,7 @@
     <script>
 
 
-        var words = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+        var words = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", 'twelve', "thirteen", "fourteen"]
         var compChoice = [];
         var spaces = [];
         var letters = [];
@@ -90,6 +90,7 @@
                     
                 }
                 checkForWin();
+      
             }
 
             if (!match && guesses > 0) {
@@ -102,6 +103,9 @@
                 document.getElementById("guesses1").innerHTML = "you lose";
 
             }
+            if (!checkForWin()){
+                return
+            }
 
         }
 
@@ -109,13 +113,16 @@
             userVals = document.getElementById("spaces").innerHTML
             console.log(userVals)
             arrayOfVals = userVals.split(" ");
+            console.log(arrayOfVals)
             strOfVals = arrayOfVals.join("");
             console.log(strOfVals)
             strOfLetters = letters.join("");
             console.log(strOfLetters)
-            
             if (strOfVals === strOfLetters){
-                alert("you win!!");
+               document.getElementById("guesses1").innerHTML = "you win!!";
+               checkForWin = false;
+                
+                
             }
         
             
