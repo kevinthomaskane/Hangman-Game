@@ -11,109 +11,120 @@
     * {
         text-align: center;
     }
+
+    h2 {
+        color: green;
+    }
 </style>
+
 <body>
     <h1>
-
+        Hangman
     </h1>
-<p id="test">
-    
-</p>
+    <p id="test">
 
-<h1 id="guesses1">Number of Guesses: <span id="guesses"></span></h1>
-    
-    
+    </p>
+
+    <h4 id="guesses1">Number of Guesses:
+        <span id="guesses"></span>
+    </h4>
+
+
     <h2 id="spaces"></h2>
-    
+
     <h3 id="incorrectLetters" style="color: red">
-        </h3>
+    </h3>
 
 
-        <script>
+    <script>
 
 
-            var words = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
-            var compChoice = [];
-            var spaces = [];
-            var letters = [];
-            
-            
-            
-            
-            compChoose();
-            writeSpaces(compChoice);
-
-            var guesses = spaces.length;
-            document.getElementById("guesses").innerHTML = guesses;
-            
-            
-            
-            console.log(guesses)
-
-            
-
-            function compChoose() {
-                var choice = words[Math.floor(Math.random() * words.length)];
-                console.log(choice);
-                var letterArray = choice.split("");
-                console.log(letterArray)
-                letters.push(choice)
-                compChoice.push(letterArray);
-                console.log(letters)
-                return letterArray;
+        var words = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
+        var compChoice = [];
+        var spaces = [];
+        var letters = [];
+        var userChoices = [];
 
 
+
+        compChoose();
+        writeSpaces(compChoice);
+
+        var guesses = spaces.length;
+        document.getElementById("guesses").innerHTML = guesses;
+
+        function compChoose() {
+            var choice = words[Math.floor(Math.random() * words.length)];
+            console.log(choice);
+            var letterArray = choice.split("");
+            console.log(letterArray)
+            letters.push(choice)
+            compChoice.push(letterArray);
+        }
+
+        function writeSpaces(compChoice) {
+            for (let i = 0; i < compChoice[0].length; i++) {
+                compChoice[0][i] = "_";
+                spaces.push(compChoice[0][i]);
             }
-            
+            newString = spaces.join(" ");
+            document.getElementById("spaces").innerHTML = newString;
+        }
 
-            function writeSpaces(compChoice) {
-                for (let i = 0; i < compChoice[0].length; i++) {
-                    compChoice[0][i] = "_";
-                    spaces.push(compChoice[0][i]);
-                }
-                newString = spaces.join(" ");
-                document.getElementById("spaces").innerHTML = newString;
-            }
+        document.onkeypress = function (event) {
 
-       
-             document.onkeypress = function (event){
-                
-                var letterChoice = event.key;         
-                var spacesString = document.getElementById("spaces").innerHTML;              
-                var spacesArray = spacesString.split(" ")
-                var arrayOfLetters = letters[0].split("")
-                console.log(arrayOfLetters);
-                var match = false;
-                for (let i = 0; i < arrayOfLetters.length; i++) { 
-
-                    if (arrayOfLetters[i] === letterChoice  && guesses > 1) {
-
-                        spacesArray[i]= arrayOfLetters[i];
-                        var newString = spacesArray.join(" ")
-                        document.getElementById("spaces").innerHTML = newString;
-                        match = true;
-                    }
-                        
-                  }
-
-                    if (!match && guesses > 1){
-                        document.getElementById("incorrectLetters").innerHTML += letterChoice;
-                        
-                            guesses--;
-                            document.getElementById("guesses").innerHTML = guesses;
-                    }
-                        else {
-                            document.getElementById("guesses1").innerHTML = "you lose";
-                        }
-                        
-                        
+            var letterChoice = event.key;
+            userChoices.push(letterChoice);
+            console.log(userChoices)
+            var spacesString = document.getElementById("spaces").innerHTML;
+            var spacesArray = spacesString.split(" ")
+            var arrayOfLetters = letters[0].split("")
+            var match = false;
+            for (let i = 0; i < arrayOfLetters.length; i++) {
+                if (arrayOfLetters[i] === letterChoice && guesses > 0) {
+                    spacesArray[i] = arrayOfLetters[i];
+                    var newString = spacesArray.join(" ")
+                    document.getElementById("spaces").innerHTML = newString;
+                    console.log(newString)
+                    match = true;
                     
                 }
+                checkForWin();
+            }
+
+            if (!match && guesses > 0) {
+                document.getElementById("incorrectLetters").innerHTML += letterChoice;
+                guesses--;
+                document.getElementById("guesses").innerHTML = guesses;
+            }
+
+            if (guesses === 0) {
+                document.getElementById("guesses1").innerHTML = "you lose";
+
+            }
+
+        }
+
+        function checkForWin() {
+            userVals = document.getElementById("spaces").innerHTML
+            console.log(userVals)
+            arrayOfVals = userVals.split(" ");
+            strOfVals = arrayOfVals.join("");
+            console.log(strOfVals)
+            strOfLetters = letters.join("");
+            console.log(strOfLetters)
+            
+            if (strOfVals === strOfLetters){
+                alert("you win!!");
+            }
+        
+            
+
+        }
 
 
-                
 
-        </script>
+    </script>
 
 </body>
 
