@@ -38,14 +38,11 @@
 
     <script>
 
-
-        var words = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", 'twelve', "thirteen", "fourteen"]
+        var words = ["one", "two", "three", "four", "nine", "ten", "eleven", 'twelve', "thirteen", "fourteen"]
         var compChoice = [];
         var spaces = [];
         var letters = [];
         var userChoices = [];
-
-
 
         compChoose();
         writeSpaces(compChoice);
@@ -71,8 +68,22 @@
             document.getElementById("spaces").innerHTML = newString;
         }
 
-        document.onkeypress = function (event) {
+        function checkForWin() {
+            userVals = document.getElementById("spaces").innerHTML
+            console.log(userVals)
+            arrayOfVals = userVals.split(" ");
+            console.log(arrayOfVals)
+            strOfVals = arrayOfVals.join("");
+            console.log(strOfVals)
+            strOfLetters = letters.join("");
+            console.log(strOfLetters)
+            if (strOfVals === strOfLetters) {
+                alert(`you win, answer was ${strOfLetters}`)
+                location.reload();
+            }
+        }
 
+        document.onkeydown = function (event) {
             var letterChoice = event.key;
             userChoices.push(letterChoice);
             console.log(userChoices)
@@ -87,12 +98,9 @@
                     document.getElementById("spaces").innerHTML = newString;
                     console.log(newString)
                     match = true;
-                    
                 }
                 checkForWin();
-      
             }
-
             if (!match && guesses > 0) {
                 document.getElementById("incorrectLetters").innerHTML += letterChoice;
                 guesses--;
@@ -101,32 +109,9 @@
 
             if (guesses === 0) {
                 document.getElementById("guesses1").innerHTML = "you lose";
-
+                alert(`you lose, stupid! the answer was ${letters}`)
+                location.reload();         
             }
-            if (!checkForWin()){
-                return
-            }
-
-        }
-
-        function checkForWin() {
-            userVals = document.getElementById("spaces").innerHTML
-            console.log(userVals)
-            arrayOfVals = userVals.split(" ");
-            console.log(arrayOfVals)
-            strOfVals = arrayOfVals.join("");
-            console.log(strOfVals)
-            strOfLetters = letters.join("");
-            console.log(strOfLetters)
-            if (strOfVals === strOfLetters){
-               document.getElementById("guesses1").innerHTML = "you win!!";
-               checkForWin = false;
-                
-                
-            }
-        
-            
-
         }
 
 
