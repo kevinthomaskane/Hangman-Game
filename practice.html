@@ -5,104 +5,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PRACTICE</title>
+    <title>Index</title>
 </head>
 <style>
     * {
         text-align: center;
     }
+
+    h2 {
+        color: green;
+    }
 </style>
+
 <body>
     <h1>
-
+        Hangman
     </h1>
-<p id="test">
-    Hangman
-</p>
-    <!-- <input id="input" type="text" onkeypress="checkForMatch(event)"> -->
-    
+    <p id="test">
+
+    </p>
+
+    <h4 id="guesses1">Number of Guesses:</h4><span id="guesses"></span>
+
+
     <h2 id="spaces"></h2>
-    <!-- <h2 id="correctLetters" style="color: green"></h2> -->
+
     <h3 id="incorrectLetters" style="color: red">
-        </h3>
+    </h3>
 
 
-        <script>
+    <script>
 
+        var words = ["one", "two", "three", "four", "nine", "ten", "eleven", 'twelve',
+            "thirteen", "fourteen", "hundred", "bird", "table", "chicken", "computer", "hand", "thumb", "index", "finger", "key",
+            "shirt", "white", "red", "black", "orange"]
+        var compChoice = [];
+        var spaces = [];
+        var letters = [];
+        var userChoices = [];
 
-            var words = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten"]
-            var compChoice = [];
-            var spaces = [];
-            var letters = [];
-
-            compChoose();
-            writeSpaces(compChoice);
-            
-
-            function compChoose() {
-                var choice = words[Math.floor(Math.random() * words.length)];
-                console.log(choice);
-                var letterArray = choice.split("");
-                console.log(letterArray)
-                letters.push(choice)
-                compChoice.push(letterArray);
-                console.log(letters)
-                return letterArray;
-
-
-            }
-            
-
-            function writeSpaces(compChoice) {
-                for (let i = 0; i < compChoice[0].length; i++) {
-                    compChoice[0][i] = "_";
-                    spaces.push(compChoice[0][i]);
-                }
-                newString = spaces.join(" ");
-                document.getElementById("spaces").innerHTML = newString;
-            }
-
-           
-               
+        compChoose();
+        writeSpaces(compChoice);
         
-             document.onkeypress = function (event){
-                
-               
-                var letterChoice = event.key;
-                            
-                var spacesString = document.getElementById("spaces").innerHTML;              
-                var spacesArray = spacesString.split(" ")
-                var arrayOfLetters = letters[0].split("")
-                console.log(arrayOfLetters);
-                var match = false;
-                for (let i = 0; i < arrayOfLetters.length; i++) { 
 
-                    if (arrayOfLetters[i] === letterChoice) {
+        var guesses = spaces.length;
+        document.getElementById("guesses").innerHTML = guesses;
 
-                        spacesArray[i]= arrayOfLetters[i];
-                        var newString = spacesArray.join(" ")
-                        document.getElementById("spaces").innerHTML = newString;
-                        match = true;
-                    }
-                        
-                  }
+        function compChoose() {
+            var choice = words[Math.floor(Math.random() * words.length)];
+            console.log(choice);
+            var letterArray = choice.split("");
+            console.log(letterArray)
+            letters.push(choice)
+            compChoice.push(letterArray);
 
-                    if (!match){
-                        document.getElementById("incorrectLetters").innerHTML += letterChoice;
-                    }
+        }
+
+        function writeSpaces(compChoice) {
+            for (let i = 0; i < compChoice[0].length; i++) {
+                compChoice[0][i] = "_";
+                spaces.push(compChoice[0][i]);
+            }
+            newString = spaces.join(" ");
+            document.getElementById("spaces").innerHTML = newString;
+        }
+
+
+        function reset(){
+            compChoice = [];
+        spaces = [];
+        letters = [];
+        userChoices = []; 
+        compChoose();
+        writeSpaces(compChoice);
+        guesses = spaces.length;
+        document.getElementById("guesses1").innerHTML = "Number of Guesses:";
+        document.getElementById("guesses").innerHTML = guesses;
+        document.getElementById("incorrectLetters").innerHTML = "";
+
+
+
+        }
+
+        function showAlertWin() {
+            alert(`you win, answer was ${strOfLetters}`);
+            // location.reload();
+        }
+
+        function showAlertLoss() {
+            alert(`you lose, stupid! the answer was ${letters}`);
+            // location.reload();
+        }
+
+        function checkForWin() {
+            userVals = document.getElementById("spaces").innerHTML
+            console.log(userVals)
+            arrayOfVals = userVals.split(" ");
+            console.log(arrayOfVals)
+            strOfVals = arrayOfVals.join("");
+            console.log(strOfVals)
+            strOfLetters = letters.join("");
+            console.log(strOfLetters)
+            if (strOfVals === strOfLetters) {
+                setTimeout(showAlertWin, 500);
+                setTimeout(reset, 1000);
+            }
+        }
+
+        document.onkeydown = function (event) {
+            var letterChoice = event.key;
+            userChoices.push(letterChoice);
+            console.log(userChoices)
+            var spacesString = document.getElementById("spaces").innerHTML;
+            var spacesArray = spacesString.split(" ")
+            var arrayOfLetters = letters[0].split("")
+            var match = false;
+            for (let i = 0; i < arrayOfLetters.length; i++) {
+                if (arrayOfLetters[i] === letterChoice && guesses > 0) {
+                    spacesArray[i] = arrayOfLetters[i];
+                    var newString = spacesArray.join(" ")
+                    document.getElementById("spaces").innerHTML = newString;
+                    console.log(newString)
+                    match = true;
                 }
+                checkForWin();
+            }
+            if (!match && guesses > 0) {
+                document.getElementById("incorrectLetters").innerHTML += letterChoice;
+                guesses--;
+                document.getElementById("guesses").innerHTML = guesses;
 
+            }
 
+            if (guesses === 0) {
+                
+                document.getElementById("guesses1").innerHTML = "";
+                document.getElementById("guesses").innerHTML = "you lose";
 
-
+                setTimeout(showAlertLoss, 500);
+                setTimeout(reset, 1000);
+                
+                
+            }
             
+        }
+    
 
 
-
-            
-
-
-        </script>
+    </script>
 
 </body>
 
