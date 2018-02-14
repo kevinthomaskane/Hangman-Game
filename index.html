@@ -68,6 +68,20 @@
             document.getElementById("spaces").innerHTML = newString;
         }
 
+        
+                    
+              
+
+        function showAlertWin(){   
+            alert(`you win, answer was ${strOfLetters}`);
+            location.reload();
+        }
+
+        function showAlertLoss(){   
+            alert(`you lose, stupid! the answer was ${letters}`);
+            location.reload();
+        }
+
         function checkForWin() {
             userVals = document.getElementById("spaces").innerHTML
             console.log(userVals)
@@ -78,8 +92,7 @@
             strOfLetters = letters.join("");
             console.log(strOfLetters)
             if (strOfVals === strOfLetters) {
-                alert(`you win, answer was ${strOfLetters}`)
-                location.reload();
+                setTimeout(showAlertWin, 500) ;                    
             }
         }
 
@@ -105,12 +118,13 @@
                 document.getElementById("incorrectLetters").innerHTML += letterChoice;
                 guesses--;
                 document.getElementById("guesses").innerHTML = guesses;
+
             }
 
             if (guesses === 0) {
                 document.getElementById("guesses1").innerHTML = "you lose";
-                alert(`you lose, stupid! the answer was ${letters}`)
-                location.reload();         
+                setTimeout(showAlertLoss, 500) ;
+                             
             }
         }
 
